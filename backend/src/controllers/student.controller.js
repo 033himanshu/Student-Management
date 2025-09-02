@@ -42,9 +42,22 @@ export async function uploadStudents(req, res) {
   }
 }
 
+// export async function listStudents(req, res) {
+//   const students = await Student.find().sort({ created_at: -1 });
+//   res.status(200).json({ total: students.length, students });
+// }
+
 export async function listStudents(req, res) {
-  const students = await Student.find().sort({ created_at: -1 });
-  res.status(200).json({ total: students.length, students });
+  const page = parseInt(req.query.page) || 1;   // default: page 1
+  const limit = parseInt(req.query.limit) || 10; // default: 10 per page
+  const skip = (page - 1) * limit;
+
+  const [students, total] = await Promise.all([
+    Student.find().sort({ created_at: -1 }).skip(skip).limit(limit),
+    Student.countDocuments()
+  ]);
+
+  res.status(200).json({ total, page, limit, students });
 }
 
 export async function updateStudent(req, res) {

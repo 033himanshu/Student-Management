@@ -9,8 +9,17 @@ import uploadsRouter from "./src/routes/upload.route.js";
 dotenv.config();
 
 const app = express();
+console.log("Allowed Origins:", process.env.ORIGIN?.split(",") || "*");
+// app.options("*", cors());
+app.use(cors({
+  origin: process.env.ORIGIN?.split(",") || "*",  // allow multiple origins
+  methods: ["GET", "POST", "PATCH", "DELETE"],
+  allowedHeaders: 'Content-Type,Authorization',
+  credentials: true
+}));
+
+
 app.use(urlencoded({ extended: true }));
-app.use(cors({ origin: process.env.ORIGIN?.split(",") || "*" }));
 app.use(express.json());
 
 
