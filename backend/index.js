@@ -11,20 +11,29 @@ dotenv.config();
 const app = express();
 // console.log("Allowed Origins:", process.env.ORIGIN?.split(",") || "*");
 // app.options("*", cors());
-const allowedOrigins = process.env.ORIGIN?.split(",") || [];
-console.log("Allowed Origins:", allowedOrigins);
+// const allowedOrigins = process.env.ORIGIN?.split(",") || [];
+// console.log("Allowed Origins:", allowedOrigins);
+// app.use(cors({
+//   origin: (origin, callback) => {
+//     if (!origin || allowedOrigins.includes(origin)) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+//   methods: ["GET", "POST", "PATCH", "DELETE"],
+//   allowedHeaders: ["Content-Type", "Authorization"],
+//   credentials: true
+// }));
+const allowedOrigins = process.env.ORIGIN?.split(",").map(o => o.trim()) || [];
+
 app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+  origin: allowedOrigins, 
   methods: ["GET", "POST", "PATCH", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true
+  allowedHeaders: ["Content-Type", "Authorization"], 
+  credentials: true,
 }));
+
 
 
 app.use(urlencoded({ extended: true }));
