@@ -26,7 +26,7 @@ const app = express();
 //   credentials: true
 // }));
 const allowedOrigins = process.env.ORIGIN?.split(",").map(o => o.trim()) || [];
-
+console.log("Allowed Origins:", allowedOrigins);
 app.use(cors({
   origin: allowedOrigins, 
   methods: ["GET", "POST", "PATCH", "DELETE"],
@@ -39,6 +39,13 @@ app.use(cors({
 app.use(urlencoded({ extended: true }));
 app.use(express.json());
 
+app._router.stack.forEach((r) => {
+  if (r.route) {
+    console.log("Route:", r.route.path);
+  } else if (r.name === "router") {
+    console.log("Mounted router:", r.regexp);
+  }
+});
 
 
 app.get("/", (_, res) => res.send("Student Grade API live"));
