@@ -39,14 +39,6 @@ app.use(cors({
 app.use(urlencoded({ extended: true }));
 app.use(express.json());
 
-app._router.stack.forEach((r) => {
-  if (r.route) {
-    console.log("Route:", r.route.path);
-  } else if (r.name === "router") {
-    console.log("Mounted router:", r.regexp);
-  }
-});
-
 
 app.get("/", (_, res) => res.send("Student Grade API live"));
 
