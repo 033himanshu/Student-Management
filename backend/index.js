@@ -45,11 +45,11 @@ app.get("/", (_, res) => res.send("Student Grade API live"));
 // app.use("/api/students", studentsRouter);
 // app.use("/api/uploads", uploadsRouter);
 
-console.log("Mounting students router at /api/students");
+console.log("studentsRouter:", typeof studentsRouter);
+console.log("uploadsRouter:", typeof uploadsRouter);
 app.use("/api/students", studentsRouter);
-
-console.log("Mounting uploads router at /api/uploads");
 app.use("/api/uploads", uploadsRouter);
+
 
 
 app.use("*", (_, res) => res.status(404).json({ error: "Route not found" }));
