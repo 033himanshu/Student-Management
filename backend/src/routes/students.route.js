@@ -5,7 +5,6 @@ import {
 } from "../controllers/student.controller.js";
 
 const router = Router();
-// router.get("/", (_, res) => res.send("Students route live"));
 router.post("/upload", uploadMiddleware, uploadStudents);
 router.get("/", listStudents);
 router.patch("/", updateStudent);
